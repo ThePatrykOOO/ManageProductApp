@@ -6,6 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 
 class ProductRequest extends FormRequest
 {
@@ -37,7 +38,7 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:products|min:5|max:255',
+            'name' => $this->method('PUT') ? ["required", "min:5", "max:255", Rule::unique('products')->ignore($this->product->id)] : 'required|unique:products|min:5|max:255',
             'price' => 'required|numeric',
             'description' => 'required|min:20',
             'active' => 'required|boolean',
