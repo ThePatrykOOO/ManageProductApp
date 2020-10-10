@@ -38,7 +38,7 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => $this->method('PUT') ? ["required", "min:5", "max:255", Rule::unique('products')->ignore($this->product->id)] : 'required|unique:products|min:5|max:255',
+            'name' => $this->getMethod() == 'PUT' ? ["required", "min:5", "max:255", Rule::unique('products')->ignore($this->product->id)] : 'required|unique:products|min:5|max:255',
             'price' => 'required|numeric',
             'description' => 'required|min:20',
             'active' => 'required|boolean',
