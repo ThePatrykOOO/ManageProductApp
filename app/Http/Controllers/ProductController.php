@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductDeleteRequest;
 use App\Http\Requests\ProductRequest;
 use App\Product;
 use Illuminate\Http\Request;
@@ -68,13 +69,12 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Product $product
+     * @param ProductDeleteRequest $request
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
      */
-    public function destroy(Product $product)
+    public function destroy(ProductDeleteRequest $request)
     {
-        $product->delete();
+        Product::query()->find($request->productId)->delete();
         return response()->json(['message' => 'Product deleted']);
     }
 }
